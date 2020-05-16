@@ -8,7 +8,7 @@ public class RootController: UIViewController {
         self.present(vc, animated: false, completion: nil)
     }
     
-   public var controller = FirstController()
+   public var controller = LockScreenViewController()
     
     override public func viewDidLoad() {
         super.viewDidLoad()
