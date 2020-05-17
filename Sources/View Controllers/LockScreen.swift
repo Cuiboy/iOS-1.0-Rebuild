@@ -5,16 +5,29 @@ import PlaygroundSupport
 public class LockScreenViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var timer = Timer()
-    
+    let unlockDent = UIView()
+        let lockScreenImageViewMask = UIImageView()
+        let unlockDentMask = UIView()
     let timeLabel = UILabel()
      let dateLabel = UILabel()
      let slideToUnlock = UILabel()
      let sliderView = UIView()
+     let lockView = UIImageView()
+     let lowerBorder = UIView()
+     let unlockBackgroundLight = UIView()
     var timeFormatter = DateFormatter()
     var dateFormatter = DateFormatter()
     var gestureRecognizer = UIPanGestureRecognizer()
     var sliderCenter = CGPoint()
     var sliderEndCenter = CGPoint()
+     let mainBackgroundLight = UIView()
+     let unlockBackgroundDark = UIView()
+      let lockScreenImageView = UIImageView()
+    let statusBarBackground = UIView()
+     let statusBarView = UIImageView()
+     let mainBackgroundDark = UIView()
+      let upperBorder = UIView()
+    
     var hasUserTouched = false
             
     func startTimer(){
@@ -36,42 +49,48 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         view.backgroundColor = .white
         self.view = view
                
-        let lockScreenImageView = UIImageView()
+      
         lockScreenImageView.frame = self.view.frame
         lockScreenImageView.image = UIImage(named: "Assets/Wallpaper/wallpaper.jpg")
         lockScreenImageView.contentMode = .scaleAspectFill
         self.view.addSubview(lockScreenImageView)
         
-        let statusBarBackground = UIView()
+        
         statusBarBackground.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 24)
         statusBarBackground.backgroundColor = .black
         statusBarBackground.alpha = 0.5
         view.bringSubviewToFront(statusBarBackground)
         view.addSubview(statusBarBackground)
         
-        let statusBarView = UIImageView()
+       
         statusBarView.frame = CGRect(x: 0, y: 3, width: self.view.frame.width, height: 24)
         statusBarView.image = UIImage(named: "Assets/Lock_Screen/statusBar_white.png")
         statusBarView.contentMode = .scaleAspectFit
         view.bringSubviewToFront(statusBarView)
         view.addSubview(statusBarView)
         
+       
+        lockView.frame = CGRect(x: 0, y: 3, width: self.view.frame.width, height: 24)
+        lockView.image = UIImage(named: "Assets/Lock_Screen/lock.png")
+        lockView.contentMode = .scaleAspectFit
+        view.bringSubviewToFront(lockView)
+        view.addSubview(lockView)
         
-        let mainBackgroundLight = UIView()
+       
         mainBackgroundLight.frame = CGRect(x: 0, y: 24, width: self.view.frame.width, height: 56)
         mainBackgroundLight.backgroundColor = .darkGray
         mainBackgroundLight.alpha = 0.5
         view.bringSubviewToFront(mainBackgroundLight)
         view.addSubview(mainBackgroundLight)
         
-        let mainBackgroundDark = UIView()
+       
             mainBackgroundDark.frame = CGRect(x: 0, y: 80, width: self.view.frame.width, height: 56)
             mainBackgroundDark.backgroundColor = .black
             mainBackgroundDark.alpha = 0.4
             view.bringSubviewToFront(mainBackgroundDark)
             view.addSubview(mainBackgroundDark)
     
-        let upperBorder = UIView()
+      
         upperBorder.frame = CGRect(x: 0, y: 136, width: self.view.frame.width, height: 1.5)
                   upperBorder.backgroundColor = .black
         upperBorder.alpha = 0.75
@@ -86,10 +105,11 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         timeLabel.text = timeFormatter.string(from: Date())
         timeLabel.shadowColor = .black
         timeLabel.textColor = .white
-        timeLabel.font = UIFont(name: "Helvetica-Light", size: 84)
+        timeLabel.font = UIFont(name: "Helvetica-Light", size: 94)
       //  timeLabel.backgroundColor = .white
         timeLabel.frame = CGRect(x: 0, y: 36, width: 320, height: 74)
         view.addSubview(timeLabel)
+         view.bringSubviewToFront(timeLabel)
         timeLabel.textAlignment = .center
         
             
@@ -100,9 +120,10 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
          //timeLabel.backgroundColor = .white
           dateLabel.frame = CGRect(x: 0, y: 110, width: 320, height: 26)
           view.addSubview(dateLabel)
+          view.bringSubviewToFront(dateLabel)
           dateLabel.textAlignment = .center
         
-        let lowerBorder = UIView()
+       
         lowerBorder.frame = CGRect(x: 0, y: self.view.frame.height - 58 * 2, width: self.view.frame.width, height: 1.5)
         lowerBorder.backgroundColor = .black
         lowerBorder.alpha = 0.75
@@ -110,7 +131,7 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         view.addSubview(lowerBorder)
                      
         
-        let unlockBackgroundLight = UIView()
+       
         unlockBackgroundLight.frame = CGRect(x: 0, y: self.view.frame.height - 58 * 2, width: self.view.frame.width, height: 58)
                unlockBackgroundLight.backgroundColor = .darkGray
                unlockBackgroundLight.alpha = 0.5
@@ -118,28 +139,30 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
                view.bringSubviewToFront(unlockBackgroundLight)
                view.addSubview(unlockBackgroundLight)
                
-        let unlockBackgroundDark = UIView()
+       
         unlockBackgroundDark.frame = CGRect(x: 0, y: self.view.frame.height - 58, width: self.view.frame.width, height: 58)
         unlockBackgroundDark.backgroundColor = .black
         unlockBackgroundDark.alpha = 0.4
         view.bringSubviewToFront(unlockBackgroundDark)
         view.addSubview(unlockBackgroundDark)
         
-        let lockScreenImageViewMask = UIImageView()
+      
                lockScreenImageViewMask.frame = self.view.frame
                lockScreenImageViewMask.image = UIImage(named: "Assets/Wallpaper/wallpaper.jpg")
                lockScreenImageViewMask.contentMode = .scaleAspectFill
-               self.view.addSubview(lockScreenImageViewMask)
+              
         
-        let unlockDentMask = UIView()
+      
        unlockDentMask.backgroundColor = .black
        unlockDentMask.frame = CGRect(x: 21, y: self.view.frame.height - 85, width: 278, height: 52)
-        unlockDentMask.layer.cornerRadius = 12.0
-        lockScreenImageViewMask.mask = unlockDentMask
         
+        unlockDentMask.layer.cornerRadius = 12.0
+        view.bringSubviewToFront(unlockDentMask)
+      //  lockScreenImageViewMask.mask = unlockDentMask
+      //   self.view.addSubview(lockScreenImageViewMask)
        
         
-        let unlockDent = UIView()
+      
           unlockDent.frame = CGRect(x: 21, y: self.view.frame.height - 85, width: 278, height: 52)
         unlockDent.backgroundColor = .clear
         
@@ -238,8 +261,10 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         }
     } else if gestureView.center.x == sliderEndCenter.x {
         
-        gesture.setTranslation(.zero, in: view)
-        print("UNLOCKED")
+        
+        unlock()
+        
+        
     } else {
         gestureView.center = sliderEndCenter
     }
@@ -250,6 +275,36 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
     
     }
     
+    
+    func unlock() {
+        view.bringSubviewToFront(statusBarBackground)
+         view.bringSubviewToFront(statusBarView)
+         view.bringSubviewToFront(lockView)
+        
+        
+         UIView.animate(withDuration: 0.25, animations: {
+              self.lockView.alpha = 0
+                        self.statusBarBackground.alpha = 1
+             self.view.backgroundColor = .black
+         })
+         UIView.animate(withDuration: 0.5) {
+             self.timeLabel.center = CGPoint(x: self.timeLabel.center.x, y: self.timeLabel.center.y - 25 )
+             self.dateLabel.center = CGPoint(x: self.dateLabel.center.x, y: self.dateLabel.center.y - 25 )
+            self.mainBackgroundDark.center = CGPoint(x: self.mainBackgroundDark.center.x, y: self.mainBackgroundDark.center.y - 25 )
+                self.mainBackgroundLight.center = CGPoint(x: self.mainBackgroundLight.center.x, y: self.mainBackgroundLight.center.y - 25 )
+             self.upperBorder.center = CGPoint(x: self.upperBorder.center.x, y: self.upperBorder.center.y - 25 )
+             
+              self.unlockBackgroundDark.center = CGPoint(x: self.unlockBackgroundDark.center.x, y: self.unlockBackgroundDark.center.y + 25 )
+              self.unlockBackgroundLight.center = CGPoint(x: self.unlockBackgroundLight.center.x, y: self.unlockBackgroundLight.center.y + 25 )
+             self.slideToUnlock.center = CGPoint(x: self.slideToUnlock.center.x, y: self.slideToUnlock.center.y + 25 )
+             self.unlockDent.center = CGPoint(x: self.unlockDent.center.x, y: self.unlockDent.center.y + 25 )
+             self.lowerBorder.center = CGPoint(x: self.lowerBorder.center.x, y: self.lowerBorder.center.y + 25 )
+            self.sliderView.center = CGPoint(x: self.sliderView.center.x, y: self.sliderView.center.y + 25 )
+             self.lockScreenImageView.alpha = 0
+            
+            
+         }
+    }
     
     
 }
