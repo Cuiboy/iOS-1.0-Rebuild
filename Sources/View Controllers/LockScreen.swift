@@ -27,6 +27,7 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
      let statusBarView = UIImageView()
      let mainBackgroundDark = UIView()
       let upperBorder = UIView()
+     lazy var transitionDelegate = PresentationManager()
     
     var hasUserTouched = false
             
@@ -287,23 +288,28 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
                         self.statusBarBackground.alpha = 1
              self.view.backgroundColor = .black
          })
-         UIView.animate(withDuration: 0.5) {
-             self.timeLabel.center = CGPoint(x: self.timeLabel.center.x, y: self.timeLabel.center.y - 25 )
-             self.dateLabel.center = CGPoint(x: self.dateLabel.center.x, y: self.dateLabel.center.y - 25 )
-            self.mainBackgroundDark.center = CGPoint(x: self.mainBackgroundDark.center.x, y: self.mainBackgroundDark.center.y - 25 )
-                self.mainBackgroundLight.center = CGPoint(x: self.mainBackgroundLight.center.x, y: self.mainBackgroundLight.center.y - 25 )
-             self.upperBorder.center = CGPoint(x: self.upperBorder.center.x, y: self.upperBorder.center.y - 25 )
-             
-              self.unlockBackgroundDark.center = CGPoint(x: self.unlockBackgroundDark.center.x, y: self.unlockBackgroundDark.center.y + 25 )
-              self.unlockBackgroundLight.center = CGPoint(x: self.unlockBackgroundLight.center.x, y: self.unlockBackgroundLight.center.y + 25 )
-             self.slideToUnlock.center = CGPoint(x: self.slideToUnlock.center.x, y: self.slideToUnlock.center.y + 25 )
-             self.unlockDent.center = CGPoint(x: self.unlockDent.center.x, y: self.unlockDent.center.y + 25 )
-             self.lowerBorder.center = CGPoint(x: self.lowerBorder.center.x, y: self.lowerBorder.center.y + 25 )
-            self.sliderView.center = CGPoint(x: self.sliderView.center.x, y: self.sliderView.center.y + 25 )
-             self.lockScreenImageView.alpha = 0
-            
-            
-         }
+        UIView.animate(withDuration: 0.5, animations: {
+                self.timeLabel.center = CGPoint(x: self.timeLabel.center.x, y: self.timeLabel.center.y - 25 )
+                self.dateLabel.center = CGPoint(x: self.dateLabel.center.x, y: self.dateLabel.center.y - 25 )
+               self.mainBackgroundDark.center = CGPoint(x: self.mainBackgroundDark.center.x, y: self.mainBackgroundDark.center.y - 25 )
+                   self.mainBackgroundLight.center = CGPoint(x: self.mainBackgroundLight.center.x, y: self.mainBackgroundLight.center.y - 25 )
+                self.upperBorder.center = CGPoint(x: self.upperBorder.center.x, y: self.upperBorder.center.y - 25 )
+                
+                 self.unlockBackgroundDark.center = CGPoint(x: self.unlockBackgroundDark.center.x, y: self.unlockBackgroundDark.center.y + 25 )
+                 self.unlockBackgroundLight.center = CGPoint(x: self.unlockBackgroundLight.center.x, y: self.unlockBackgroundLight.center.y + 25 )
+                self.slideToUnlock.center = CGPoint(x: self.slideToUnlock.center.x, y: self.slideToUnlock.center.y + 25 )
+                self.unlockDent.center = CGPoint(x: self.unlockDent.center.x, y: self.unlockDent.center.y + 25 )
+                self.lowerBorder.center = CGPoint(x: self.lowerBorder.center.x, y: self.lowerBorder.center.y + 25 )
+               self.sliderView.center = CGPoint(x: self.sliderView.center.x, y: self.sliderView.center.y + 25 )
+                self.lockScreenImageView.alpha = 0
+               
+               
+        }, completion: { (_) in
+            let vc = MySecondViewController()
+            vc.transitioningDelegate = self.transitionDelegate
+            vc.modalPresentationStyle = .custom
+            self.present(vc, animated: false)
+            })
     }
     
     
