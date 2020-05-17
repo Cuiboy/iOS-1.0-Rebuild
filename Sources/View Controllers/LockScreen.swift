@@ -219,6 +219,8 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         
     }
     
+  
+    
    @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         
         
@@ -305,7 +307,7 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
                
                
         }, completion: { (_) in
-            let vc = MySecondViewController()
+            let vc = HomeScreenViewController()
             vc.transitioningDelegate = self.transitionDelegate
             vc.modalPresentationStyle = .custom
             self.present(vc, animated: false)

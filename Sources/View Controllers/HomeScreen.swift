@@ -1,6 +1,5 @@
 import UIKit
 
-
 public class HomeScreenViewController: UIViewController {
 
     weak var collectionView: UICollectionView!
@@ -54,93 +53,72 @@ public class HomeScreenViewController: UIViewController {
     
     
     
-    override public func loadView() {
-        super.loadView()
-       let view = UIView()
-       view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-       view.backgroundColor = .white
-       self.view = view
-        
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height * 0.7), collectionViewLayout: UICollectionViewFlowLayout())
-          let dockView = UICollectionView(frame: CGRect(x: 0, y: self.view.frame.height - 78, width: self.view.frame.width, height: 78), collectionViewLayout: UICollectionViewFlowLayout())
-          
-        self.view.addSubview(collectionView)
-        self.view.addSubview(dockView)
-        self.collectionView = collectionView
-        self.dockView = dockView
-        
-       
-        
+    func setUpCollectionViews() {
+               self.collectionView.dataSource = self
+               self.collectionView.delegate = self
+               self.collectionView.register(Cell.self, forCellWithReuseIdentifier: Cell.identifier)
+               self.collectionView.register(Calendar.self, forCellWithReuseIdentifier: Calendar.identifier)
+               self.collectionView.alwaysBounceVertical = true
+               self.collectionView.backgroundColor = .black
+               self.dockView.dataSource = self
+               self.dockView.dataSource = self
+               self.dockView.delegate = self
+               self.dockView.register(DockCell.self, forCellWithReuseIdentifier: DockCell.identifier)
+               self.dockView.alwaysBounceVertical = true
+               self.dockView.backgroundColor = .clear
     }
 
     
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        self.collectionView.register(Cell.self, forCellWithReuseIdentifier: Cell.identifier)
-            self.collectionView.register(Calendar.self, forCellWithReuseIdentifier: Calendar.identifier)
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.backgroundColor = .black
-        self.dockView.dataSource = self
-            self.dockView.dataSource = self
-                   self.dockView.delegate = self
-                   self.dockView.register(DockCell.self, forCellWithReuseIdentifier: DockCell.identifier)
-                   self.dockView.alwaysBounceVertical = true
-                   self.dockView.backgroundColor = .clear
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 470))
+        view.backgroundColor = .black
+        self.view = view
+        
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 320, height: 300), collectionViewLayout: UICollectionViewFlowLayout())
+        let dockView = UICollectionView(frame: CGRect(x: 0, y: self.view.frame.height - 78, width: 320, height: 78), collectionViewLayout: UICollectionViewFlowLayout())
+        
+        //add collection views
+        self.view.addSubview(collectionView)
+        self.view.addSubview(dockView)
+        self.collectionView = collectionView
+        self.dockView = dockView
+        
+        setUpCollectionViews()
         
         let dock = UIImageView()
         dock.frame = CGRect(x: 0, y: self.view.frame.height - 88, width: self.view.frame.width, height: 78)
         dock.image = UIImage(named: "Assets/Home_Screen/bottom_dock.png")
         
+        //add dock
         view.addSubview(dock)
         
-        let dockShadow = UIView()
-        dockShadow.frame = CGRect(x: 0, y: self.view.frame.height - 82, width: self.view.frame.width, height: 10)
-        
-        dockShadow.backgroundColor = .black
-        dockShadow.alpha = 0.25
-       // view.addSubview(dockShadow)
-        
         let bottomBar = UIView()
-               bottomBar.frame = CGRect(x: 0, y: self.view.frame.height - 14, width: self.view.frame.width, height: 14)
+        bottomBar.frame = CGRect(x: 0, y: self.view.frame.height - 12, width: self.view.frame.width, height: 12)
                
-               bottomBar.backgroundColor = UIColor(hex: "#81868cff")
-        view.bringSubviewToFront(bottomBar)
-               view.addSubview(bottomBar)
+        bottomBar.backgroundColor = UIColor(hex: "#81868cff")
         
-       
+        view.bringSubviewToFront(bottomBar)
+        
+        //add bottom bar
+        view.addSubview(bottomBar)
         
         view.bringSubviewToFront(dockView)
-        
-        let statusBarView = UIImageView()
-        
-               statusBarView.frame = CGRect(x: 0, y: 3, width: self.view.frame.width, height: 24)
-               statusBarView.image = UIImage(named: "Assets/Lock_Screen/statusBar_white.png")
-               statusBarView.contentMode = .scaleAspectFit
-               view.bringSubviewToFront(statusBarView)
-               view.addSubview(statusBarView)
-        
-        let statusBarTime = UILabel()
-               
-                      statusBarTime.frame = CGRect(x: 0, y: 3, width: self.view.frame.width, height: 24)
-        
-        let statusFormatter = DateFormatter()
-        statusFormatter.dateFormat = "h:mm a"
-        
-        
-        statusBarTime.text = statusFormatter.string(from: Date())
-        statusBarTime.textColor = .white
-        statusBarTime.font = UIFont(name: "Helvetica-Bold", size: 12)
-        statusBarTime.textAlignment = .center
-        
-                      view.bringSubviewToFront(statusBarTime)
-                      view.addSubview(statusBarTime)
-        
+        //add status bar
+        view.addSubview(StatusBar(isWhite: true))
         
     }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+             super.viewWillAppear(animated)
+          view.alpha = 0
+             UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                 self?.view.alpha = 1
+             })
+         }
+    
 }
 
 extension HomeScreenViewController: UICollectionViewDataSource {
@@ -241,10 +219,10 @@ extension HomeScreenViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == dockView {
-            print("this case")
+            
              return 0
         } else {
-            print("else case")
+            
              return 20
         }
        
@@ -309,7 +287,7 @@ class DockCell: UICollectionViewCell {
         iconView.contentMode = .scaleAspectFill
         
         let text = UILabel()
-        text.frame = CGRect(x: 0, y: 60, width: self.contentView.frame.width, height: 20)
+        text.frame = CGRect(x: 0, y: 60, width: self.contentView.frame.width, height: 25)
         text.textColor = .white
         text.font = UIFont(name: "Helvetica-Bold", size: 11)
       
@@ -405,3 +383,5 @@ class Calendar: UICollectionViewCell {
         self.textLabel.textAlignment = .center
     }
 }
+
+
