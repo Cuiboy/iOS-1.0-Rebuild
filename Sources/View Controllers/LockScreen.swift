@@ -159,9 +159,6 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         
         unlockDentMask.layer.cornerRadius = 12.0
         view.bringSubviewToFront(unlockDentMask)
-      //  lockScreenImageViewMask.mask = unlockDentMask
-      //   self.view.addSubview(lockScreenImageViewMask)
-       
         
       
           unlockDent.frame = CGRect(x: 21, y: self.view.frame.height - 85, width: 278, height: 52)
@@ -215,6 +212,8 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
         
         gestureRecognizer.addTarget(self, action: #selector(handlePan))
         sliderView.addGestureRecognizer(gestureRecognizer)
+        
+      
         
         
     }
@@ -307,10 +306,19 @@ public class LockScreenViewController: UIViewController, UIGestureRecognizerDele
                
                
         }, completion: { (_) in
+            
             let vc = HomeScreenViewController()
-            vc.transitioningDelegate = self.transitionDelegate
-            vc.modalPresentationStyle = .custom
-            self.present(vc, animated: false)
+            
+            vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+            
+         //   vc.view.center = self.view.center
+            self.addChild(vc)
+            self.view.addSubview(vc.view)
+            vc.didMove(toParent: self)
+            
+//            vc.transitioningDelegate = self.transitionDelegate
+//            vc.modalPresentationStyle = .custom
+//            self.present(vc, animated: false)
             })
     }
     

@@ -4,7 +4,7 @@ public class HomeScreenViewController: UIViewController {
 
     weak var collectionView: UICollectionView!
     weak var dockView: UICollectionView!
-
+    lazy var transitionDelegate = PresentationManager()
     
     var appLabels = [
         "Text",
@@ -56,7 +56,7 @@ public class HomeScreenViewController: UIViewController {
     func setUpCollectionViews() {
                self.collectionView.dataSource = self
                self.collectionView.delegate = self
-               self.collectionView.register(Cell.self, forCellWithReuseIdentifier: Cell.identifier)
+               self.collectionView.register(TableCell.self, forCellWithReuseIdentifier: Cell.identifier)
                self.collectionView.register(Calendar.self, forCellWithReuseIdentifier: Calendar.identifier)
                self.collectionView.alwaysBounceVertical = true
                self.collectionView.backgroundColor = .black
@@ -73,7 +73,7 @@ public class HomeScreenViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 470))
+        let view = UIView(frame: CGRect(x: 0, y: -10, width: 320, height: 475))
         view.backgroundColor = .black
         self.view = view
         
@@ -85,6 +85,9 @@ public class HomeScreenViewController: UIViewController {
         self.view.addSubview(dockView)
         self.collectionView = collectionView
         self.dockView = dockView
+        
+        collectionView.isScrollEnabled = false
+        dockView.isScrollEnabled = false
         
         setUpCollectionViews()
         
@@ -149,7 +152,7 @@ extension HomeScreenViewController: UICollectionViewDataSource {
                                cell.textLabel.textColor = UIColor.white
                                       return cell
             } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! Cell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! TableCell
                           cell.textLabel.text = appLabels[indexPath.item]
                           cell.imageView.image = appIcons[indexPath.item]
                                cell.textLabel.textColor = UIColor.white
@@ -173,9 +176,39 @@ extension HomeScreenViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
             if collectionView == dockView {
-                
+                let vc = UnderConstructionViewController()
+                     
+                                  
+                                  vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                                  
+                               //   vc.view.center = self.view.center
+                                  self.addChild(vc)
+                                  self.view.addSubview(vc.view)
+                                  vc.didMove(toParent: self)
             } else {
-                
+                switch appLabels[indexPath.item] {
+                case "Calculator":
+                    let vc = CalculatorViewController()
+                                          vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                                          self.addChild(vc)
+                                          self.view.addSubview(vc.view)
+                                          vc.didMove(toParent: self)
+                case "Settings":
+                    let vc = SettingsViewController()
+                        vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                        self.addChild(vc)
+                        self.view.addSubview(vc.view)
+                        vc.didMove(toParent: self)
+                default:   let vc = UnderConstructionViewController()
+                                   
+                                                
+                                                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                                                
+                                             //   vc.view.center = self.view.center
+                                                self.addChild(vc)
+                                                self.view.addSubview(vc.view)
+                                                vc.didMove(toParent: self)
+                }
             }
     }
     
@@ -229,7 +262,7 @@ extension HomeScreenViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class Cell: UICollectionViewCell {
+class TableCell: UICollectionViewCell {
 
     static var identifier: String = "Cell"
 

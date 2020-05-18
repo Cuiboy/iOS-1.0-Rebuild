@@ -5,10 +5,10 @@ public class FirstController: UIViewController {
     lazy var transitionDelegate = PresentationManager()
     
     @objc func buttonAction() {
-        let vc = MySecondViewController()
-        vc.transitioningDelegate = transitionDelegate
-        vc.modalPresentationStyle = .custom
-        present(vc, animated: false)
+      //  let vc = MySecondViewController()
+      //  vc.transitioningDelegate = transitionDelegate
+      //  vc.modalPresentationStyle = .custom/
+     //   present(vc, animated: false)
     }
     
     override public func viewDidLoad() {

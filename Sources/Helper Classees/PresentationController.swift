@@ -14,7 +14,7 @@ public class PresentationController: UIPresentationController {
     override public func size(forChildContentContainer container: UIContentContainer,
                        withParentContainerSize parentSize: CGSize) -> CGSize {
       
-        return CGSize(width: 320, height: 467.5)
+        return CGSize(width: 320, height: 475)
       
     }
     
