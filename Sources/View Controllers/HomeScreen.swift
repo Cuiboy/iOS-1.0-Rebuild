@@ -1,7 +1,7 @@
 import UIKit
 
 public class HomeScreenViewController: UIViewController {
-
+    
     weak var collectionView: UICollectionView!
     weak var dockView: UICollectionView!
     lazy var transitionDelegate = PresentationManager()
@@ -27,7 +27,7 @@ public class HomeScreenViewController: UIViewController {
         "Safari",
         "iPod"
     ]
-
+    
     
     var appIcons = [
         UIImage(named: "Assets/Home_Screen/text.png"),
@@ -45,29 +45,29 @@ public class HomeScreenViewController: UIViewController {
     ]
     
     var dockIcons =  [
-     UIImage(named: "Assets/Home_Screen/phone.png"),
-     UIImage(named: "Assets/Home_Screen/mail.png"),
-     UIImage(named: "Assets/Home_Screen/safari.png"),
-     UIImage(named: "Assets/Home_Screen/iPod.png")
+        UIImage(named: "Assets/Home_Screen/phone.png"),
+        UIImage(named: "Assets/Home_Screen/mail.png"),
+        UIImage(named: "Assets/Home_Screen/safari.png"),
+        UIImage(named: "Assets/Home_Screen/iPod.png")
     ]
     
     
     
     func setUpCollectionViews() {
-               self.collectionView.dataSource = self
-               self.collectionView.delegate = self
-               self.collectionView.register(TableCell.self, forCellWithReuseIdentifier: Cell.identifier)
-               self.collectionView.register(Calendar.self, forCellWithReuseIdentifier: Calendar.identifier)
-               self.collectionView.alwaysBounceVertical = true
-               self.collectionView.backgroundColor = .black
-               self.dockView.dataSource = self
-               self.dockView.dataSource = self
-               self.dockView.delegate = self
-               self.dockView.register(DockCell.self, forCellWithReuseIdentifier: DockCell.identifier)
-               self.dockView.alwaysBounceVertical = true
-               self.dockView.backgroundColor = .clear
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.register(TableCell.self, forCellWithReuseIdentifier: Cell.identifier)
+        self.collectionView.register(Calendar.self, forCellWithReuseIdentifier: Calendar.identifier)
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.backgroundColor = .black
+        self.dockView.dataSource = self
+        self.dockView.dataSource = self
+        self.dockView.delegate = self
+        self.dockView.register(DockCell.self, forCellWithReuseIdentifier: DockCell.identifier)
+        self.dockView.alwaysBounceVertical = true
+        self.dockView.backgroundColor = .clear
     }
-
+    
     
     
     override public func viewDidLoad() {
@@ -100,7 +100,7 @@ public class HomeScreenViewController: UIViewController {
         
         let bottomBar = UIView()
         bottomBar.frame = CGRect(x: 0, y: self.view.frame.height - 12, width: self.view.frame.width, height: 12)
-               
+        
         bottomBar.backgroundColor = UIColor(hex: "#81868cff")
         
         view.bringSubviewToFront(bottomBar)
@@ -115,101 +115,109 @@ public class HomeScreenViewController: UIViewController {
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-             super.viewWillAppear(animated)
-          view.alpha = 0
-             UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                 self?.view.alpha = 1
-             })
-         }
+        super.viewWillAppear(animated)
+        view.alpha = 0
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.view.alpha = 1
+        })
+    }
     
 }
 
 extension HomeScreenViewController: UICollectionViewDataSource {
-
+    
     public func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
+                               numberOfItemsInSection section: Int) -> Int {
         if collectionView == dockView {
             return dockLabels.count
         } else {
             return appLabels.count
         }
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
- 
+                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         if collectionView == dockView {
-                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DockCell.identifier, for: indexPath) as! DockCell
-                   cell.textLabel.text = dockLabels[indexPath.item]
-                                           cell.imageView.image = dockIcons[indexPath.item]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DockCell.identifier, for: indexPath) as! DockCell
+            cell.textLabel.text = dockLabels[indexPath.item]
+            cell.imageView.image = dockIcons[indexPath.item]
             cell.textLabel.textColor = UIColor.white
-                   return cell
-               } else {
+            return cell
+        } else {
             if indexPath.item == 1 {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Calendar.identifier, for: indexPath) as! Calendar
-                          cell.textLabel.text = appLabels[indexPath.item]
-                          cell.imageView.image = appIcons[indexPath.item]
-                               cell.textLabel.textColor = UIColor.white
-                                      return cell
+                cell.textLabel.text = appLabels[indexPath.item]
+                cell.imageView.image = appIcons[indexPath.item]
+                cell.textLabel.textColor = UIColor.white
+                return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! TableCell
-                          cell.textLabel.text = appLabels[indexPath.item]
-                          cell.imageView.image = appIcons[indexPath.item]
-                               cell.textLabel.textColor = UIColor.white
-                                      return cell
+                cell.textLabel.text = appLabels[indexPath.item]
+                cell.imageView.image = appIcons[indexPath.item]
+                cell.textLabel.textColor = UIColor.white
+                return cell
             }
-                 
-               }
-       
-       
+            
+        }
+        
+        
     }
 }
 /*
  if collectionView == collectionView {
-     
+ 
  } else {
-     
+ 
  }
  **/
 extension HomeScreenViewController: UICollectionViewDelegate {
-
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-            if collectionView == dockView {
+        if collectionView == dockView {
+          
+            
+            switch dockLabels[indexPath.item] {
+            case "Phone":
+                let vc = PhoneViewController()
+                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                self.addChild(vc)
+                self.view.addSubview(vc.view)
+                vc.didMove(toParent: self)
+            default:
                 let vc = UnderConstructionViewController()
-                     
-                                  
-                                  vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-                                  
-                               //   vc.view.center = self.view.center
-                                  self.addChild(vc)
-                                  self.view.addSubview(vc.view)
-                                  vc.didMove(toParent: self)
-            } else {
-                switch appLabels[indexPath.item] {
-                case "Calculator":
-                    let vc = CalculatorViewController()
-                                          vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-                                          self.addChild(vc)
-                                          self.view.addSubview(vc.view)
-                                          vc.didMove(toParent: self)
-                case "Settings":
-                    let vc = SettingsViewController()
-                        vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-                        self.addChild(vc)
-                        self.view.addSubview(vc.view)
-                        vc.didMove(toParent: self)
-                default:   let vc = UnderConstructionViewController()
-                                   
-                                                
-                                                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-                                                
-                                             //   vc.view.center = self.view.center
-                                                self.addChild(vc)
-                                                self.view.addSubview(vc.view)
-                                                vc.didMove(toParent: self)
-                }
+                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                self.addChild(vc)
+                self.view.addSubview(vc.view)
+                vc.didMove(toParent: self)
             }
+            
+        } else {
+            switch appLabels[indexPath.item] {
+            case "Calculator":
+                let vc = CalculatorViewController()
+                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                self.addChild(vc)
+                self.view.addSubview(vc.view)
+                vc.didMove(toParent: self)
+            case "Settings":
+                let vc = SettingsViewController()
+                vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+                self.addChild(vc)
+                self.view.addSubview(vc.view)
+                vc.didMove(toParent: self)
+            default:   let vc = UnderConstructionViewController()
+            
+            
+            vc.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+            
+            //   vc.view.center = self.view.center
+            self.addChild(vc)
+            self.view.addSubview(vc.view)
+            vc.didMove(toParent: self)
+            }
+        }
     }
     
     
@@ -217,148 +225,148 @@ extension HomeScreenViewController: UICollectionViewDelegate {
 }
 
 extension HomeScreenViewController: UICollectionViewDelegateFlowLayout {
-
-    public func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == dockView {
-              return CGSize(width: 60, height: 80)
-        } else {
-              return CGSize(width: 60, height: 74)
-        }
-      
-    }
-
     
-        
     public func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == dockView {
-             return UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
+            return CGSize(width: 60, height: 80)
         } else {
-             return UIEdgeInsets(top: 40, left: 16, bottom: 0, right: 16)
+            return CGSize(width: 60, height: 74)
         }
-       
+        
     }
-
+    
+    
+    
     public func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == dockView {
+            return UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
+        } else {
+            return UIEdgeInsets(top: 40, left: 16, bottom: 0, right: 16)
+        }
+        
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 6
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == dockView {
             
-             return 0
+            return 0
         } else {
             
-             return 20
+            return 20
         }
-       
+        
     }
 }
 
 class TableCell: UICollectionViewCell {
-
+    
     static var identifier: String = "Cell"
-
+    
     weak var textLabel: UILabel!
     weak var imageView: UIImageView!
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         let iconView = UIImageView()
         iconView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-       
+        
         iconView.contentMode = .scaleAspectFill
         
         let text = UILabel()
         text.frame = CGRect(x: 0, y: 60, width: self.contentView.frame.width, height: 17)
         text.textColor = .white
         text.font = UIFont(name: "Helvetica-Bold", size: 11)
-      
+        
         self.imageView = iconView
-       
+        
         self.textLabel = text
-          self.contentView.addSubview(imageView)
+        self.contentView.addSubview(imageView)
         self.contentView.addSubview(textLabel)
         self.reset()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.reset()
     }
-
+    
     func reset() {
         self.textLabel.textAlignment = .center
     }
 }
 
 class DockCell: UICollectionViewCell {
-
+    
     static var identifier: String = "DockCell"
-
+    
     weak var textLabel: UILabel!
     weak var imageView: UIImageView!
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         let iconView = UIImageView()
         iconView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-       
+        
         iconView.contentMode = .scaleAspectFill
         
         let text = UILabel()
         text.frame = CGRect(x: 0, y: 60, width: self.contentView.frame.width, height: 25)
         text.textColor = .white
         text.font = UIFont(name: "Helvetica-Bold", size: 11)
-      
+        
         self.imageView = iconView
-       
+        
         self.textLabel = text
-          self.contentView.addSubview(imageView)
+        self.contentView.addSubview(imageView)
         self.contentView.addSubview(textLabel)
         self.reset()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.reset()
     }
-
+    
     func reset() {
         self.textLabel.textAlignment = .center
     }
 }
 
 class Calendar: UICollectionViewCell {
-
+    
     static var identifier: String = "Calendar"
-
+    
     weak var textLabel: UILabel!
     weak var imageView: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         let iconView = UIImageView()
         iconView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-       
+        
         iconView.contentMode = .scaleAspectFill
         
         let weekdayLabel = UILabel()
@@ -369,14 +377,14 @@ class Calendar: UICollectionViewCell {
         weekdayLabel.textAlignment = .center
         weekdayLabel.text = weekFormatter.string(from: Date())
         weekdayLabel.textColor = .white
-       // weekdayLabel.shadowColor = .black
+        // weekdayLabel.shadowColor = .black
         weekdayLabel.font = UIFont(name: "Helvetica-Bold", size: 9)
         
         weekdayLabel.adjustsFontSizeToFitWidth = true
         weekdayLabel.minimumScaleFactor = 0.4
         
         let dayFormatter = DateFormatter()
-            dayFormatter.dateFormat = "d"
+        dayFormatter.dateFormat = "d"
         
         let dayLabel = UILabel()
         dayLabel.frame = CGRect(x: 0, y: 21, width: iconView.frame.width, height: 30)
@@ -394,24 +402,24 @@ class Calendar: UICollectionViewCell {
         text.frame = CGRect(x: 0, y: 60, width: self.contentView.frame.width, height: 17)
         text.textColor = .white
         text.font = UIFont(name: "Helvetica-Bold", size: 11)
-      
+        
         self.imageView = iconView
-       
+        
         self.textLabel = text
-          self.contentView.addSubview(imageView)
+        self.contentView.addSubview(imageView)
         self.contentView.addSubview(textLabel)
         self.reset()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.reset()
     }
-
+    
     func reset() {
         self.textLabel.textAlignment = .center
     }

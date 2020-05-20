@@ -3,29 +3,29 @@ import UIKit
 
 public class RootViewController: UIViewController {
     
-  
     
-   public var controller = LockScreenViewController()
     
-   
+    public var controller = LockScreenViewController()
+    
+    
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-               let view = UIView()
-               view.frame = CGRect(x: 0, y: 0, width: 450, height: 800)
-               view.backgroundColor = .white
-               self.view = view
+        let view = UIView()
+        view.frame = CGRect(x: 0, y: 0, width: 450, height: 800)
+        view.backgroundColor = .white
+        self.view = view
         
-      
-       controller.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+        
+        controller.view.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
         controller.view.center = self.view.center
         print(controller.view.frame)
-       // controller.view.autoresizingMask = [.flexibleHeight, .flexibleHeight]
-         addChild(controller)
+        // controller.view.autoresizingMask = [.flexibleHeight, .flexibleHeight]
+        addChild(controller)
         controller.didMove(toParent: self)
-       
-    
-
+        
+        
+        
         
         let originaliPhoneView = UIImageView()
         originaliPhoneView.frame = CGRect(x: -1.75, y: 0, width: 450, height: 800)
@@ -33,7 +33,7 @@ public class RootViewController: UIViewController {
         originaliPhoneView.image = iPhoneImage
         view.addSubview(originaliPhoneView)
         view.sendSubviewToBack(originaliPhoneView)
-   
+        
         
         
         let homeButtonShape = UIView()
@@ -48,12 +48,12 @@ public class RootViewController: UIViewController {
         homeButtonShape.addGestureRecognizer(homeButtonGesture)
         
         
-           let maskView = UIView()
-                 maskView.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
-                 maskView.backgroundColor = .yellow
-                 view.addSubview(maskView)
-           controller.view.mask = maskView
-            self.view.addSubview(controller.view)
+        let maskView = UIView()
+        maskView.frame = CGRect(x: 0, y: 0, width: 320, height: 480)
+        maskView.backgroundColor = .yellow
+        view.addSubview(maskView)
+        controller.view.mask = maskView
+        self.view.addSubview(controller.view)
         
     }
     @objc public func homeTapped() {
